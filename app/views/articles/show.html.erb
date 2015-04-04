@@ -3,6 +3,9 @@
 <div>
 	<p style="color:red"> Escrito por: <%= @article.user.email %></p>
 </div>
+<div>
+	<p style="color:red"> Visitas <%= @article.visits_count %></p>
+</div>
 <%end%>
 <div>
 	<%= @article.body %>

@@ -1,4 +1,11 @@
 class ArticlesController < ApplicationController
+  #para validar sessiones
+  # before_action :validate_user, except: [:show, :index]
+
+  #ese es un helper de devise  que valida session 
+  before_action :authenticate_user!, except: [:show, :index]
+  #este es un callback que no sirve para recilar codigo DRY
+  before_action :set_article, except: [:index, :new, :create]
   #GET /articles
   def index
     @articles = Article.all
@@ -6,8 +13,8 @@ class ArticlesController < ApplicationController
   end
   #GET /article/:id
   def show
-    @article = Article.find(params[:id])
-  end
+     @article.update_visits_count 
+   end
   #GET /article/new
   def new
     @article = Article.new
@@ -15,7 +22,7 @@ class ArticlesController < ApplicationController
 
   #GET /article/:id/edit
   def edit
-    @article = Article.find(params[:id])
+    
   end
 
  #POST /articles
@@ -29,13 +36,13 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
-    @article = Article.find(params[:id])
+   
     @article.destroy  
     redirect_to articles_path
   end
 
   def update
-    @article = Article.find(params[:id])
+    
     if @article.update(article_params)
       redirect_to @article
       else
@@ -45,6 +52,13 @@ end
 
 
   private
+  #para validar sessiones 
+  # def validate_user
+  #   redirect_to new_user_session_path, notice: "Tienes que iniciar session "
+  # end
+  def set_article
+    @article = Article.find(params[:id])
+  end
    def article_params
      params.require(:article).permit(:title, :body)
    end
