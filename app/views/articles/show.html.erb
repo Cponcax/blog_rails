@@ -1,4 +1,9 @@
 <h1><%= @article.title %></h1>
+<% unless @article.user.nil? %>
+<div>
+	<p style="color:red"> Escrito por: <%= @article.user.email %></p>
+</div>
+<%end%>
 <div>
 	<%= @article.body %>
 </div>
